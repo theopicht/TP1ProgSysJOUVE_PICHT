@@ -2,7 +2,7 @@
 
 ---
 
-#Question 1 
+## Question 1 
 
 On créer un fichier enseash, permettant d'afficher le message d'acceuil à l'aide de l'instruction suivante "write(STDOUT_FILENO, welcome_message, sizeof(welcome_message) - EXCLUDE_NULL_CHAR)"  
 Cela permet de ne pas utiliser l'instruction printf()  
@@ -13,7 +13,7 @@ Résultats Shell :
 
 ---
 
-#Question 2
+## Question 2
 
 On implémente alors la lecture de la commande saisie à l'aide de la fonction "strcmp()". L'appel à la l'instruction "execlp("fortune", "fortune", NULL)" permet d'afficher en retour des citations. Dans le cas où aucune saisie n'est faite, on teste la longueur de la commande saisie ("command_length == 0") et on renvoie la date actuelle.  
 
@@ -25,7 +25,7 @@ Résultats Shell :
 
 ---
 
-#Question 3  
+## Question 3  
 
 Ici, deux cas se présente à nous pour sortie du shell :  
 - le message saisie est "exit" --> on utilise l'instruction "strcmp", puis affichage du message "Bye bye..." à l'aide d'un "write", puis sortie du shell.  
@@ -38,4 +38,6 @@ Ici, deux cas se présente à nous pour sortie du shell :
 <img width="603" alt="Capture d’écran 2023-11-29 à 16 16 10" src="https://github.com/theopicht/TP1ProgSysJOUVE_PICHT/assets/151057454/d99f57d2-b8eb-4460-b986-62a365f7e2e3">  
 
 ---
+
+## Question 4
 
