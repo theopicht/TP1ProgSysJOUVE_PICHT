@@ -25,4 +25,17 @@ Résultats Shell :
 
 ---
 
+#Question 3  
+
+Ici, deux cas se présente à nous pour sortie du shell :  
+- le message saisie est "exit" --> on utilise l'instruction "strcmp", puis affichage du message "Bye bye..." à l'aide d'un "write", puis sortie du shell.  
+- la commande faite est <ctrl>+d --> on utilise l'instruction "command_length == 0", du message "Bye bye..." à l'aide d'un "write", puis sortie du shell (avec remplacement du retour à la ligne par un caractère NULL (\0))  
+
+<ins>Cas "exit"</ins> :
+<img width="603" alt="Capture d’écran 2023-11-29 à 16 14 42" src="https://github.com/theopicht/TP1ProgSysJOUVE_PICHT/assets/151057454/57371a03-91b0-44e8-be78-2788d493fce8">
+
+<ins>Cas "ctrl+d"</ins> :
+<img width="603" alt="Capture d’écran 2023-11-29 à 16 16 10" src="https://github.com/theopicht/TP1ProgSysJOUVE_PICHT/assets/151057454/d99f57d2-b8eb-4460-b986-62a365f7e2e3">  
+
+---
 
