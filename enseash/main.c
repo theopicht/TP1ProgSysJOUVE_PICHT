@@ -5,6 +5,7 @@
 
 #define EXCLUDE_NULL_CHAR 1 // Define EXCLUDE_NULL_CHAR to exclude the null char at the end of the prompt.
 #define MAX_COMMAND_LENGTH 100 // Define the maximal size of a command
+#define LINE_BREAK_DELETE_OFFSET 1 // Define LINE_BREAK_DELETE_OFFSET to remove the line break
 
 void displayWelcomeMessage() {
     const char welcome_message[] = "Bienvenue dans le Shell ENSEA.\nPour quitter, tapez 'exit'.\n";
@@ -18,11 +19,10 @@ void executeCommand(const char *command) {
 
     if (pid == 0) { // Child process
         execlp(command, command, NULL);
-        // If execlp returns, there was an error
+        // If execlp returns, there is an error
         write(STDOUT_FILENO, "Error executing command\n", strlen("Error executing command\n"));
         exit(EXIT_FAILURE);
     } else if (pid > 0) { // Parent process
-        // Wait for the child to finish
         waitpid(pid, NULL, 0);
     } else { // Fork failed
         write(STDOUT_FILENO, "Error creating child process\n", strlen("Error creating child process\n"));
@@ -49,16 +49,26 @@ int main() {
     displayWelcomeMessage();
 
     while (1) {
-        write(STDOUT_FILENO, prompt, sizeof(prompt) - 1);
+        write(STDOUT_FILENO, prompt, sizeof(prompt) - EXCLUDE_NULL_CHAR);
         // We are gonna write all the REPL logic there
 
         // Reading of the typed command
         ssize_t command_length = read(STDIN_FILENO, command, sizeof(command));
 
+        // Check for end of file (Ctrl+D to exit)
+        if (command_length == 0) {
+            break;
+        }
+
         // Line break delete
-        if (command[command_length - 1] == '\n') {
+        if (command[command_length - LINE_BREAK_DELETE_OFFSET] == '\n') {
             command_length--;
             command[command_length] = '\0';
+        }
+
+        // Exit if the command is "exit"
+        if (strcmp(command, "exit") == 0) {
+            break;
         }
 
         // If nothing typed, display date
