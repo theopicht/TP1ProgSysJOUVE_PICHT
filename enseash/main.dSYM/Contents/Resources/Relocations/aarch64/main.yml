@@ -1,0 +1,11 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/picht/TPProgSys/TP1ProgSysJOUVE_PICHT/enseash/main'
+relocations:
+  - { offsetInCU: 0x26, offset: 0x26, size: 0x8, addend: 0x0, symName: _displayWelcomeMessage, symObjAddr: 0x0, symBinAddr: 0x100003994, symSize: 0x74 }
+  - { offsetInCU: 0x48, offset: 0x48, size: 0x8, addend: 0x0, symName: _displayWelcomeMessage, symObjAddr: 0x0, symBinAddr: 0x100003994, symSize: 0x74 }
+  - { offsetInCU: 0x6C, offset: 0x6C, size: 0x8, addend: 0x0, symName: _executeCommand, symObjAddr: 0x74, symBinAddr: 0x100003A08, symSize: 0x1FC }
+  - { offsetInCU: 0xD6, offset: 0xD6, size: 0x8, addend: 0x0, symName: _displayDate, symObjAddr: 0x270, symBinAddr: 0x100003C04, symSize: 0x1C }
+  - { offsetInCU: 0xEB, offset: 0xEB, size: 0x8, addend: 0x0, symName: _displayFortune, symObjAddr: 0x28C, symBinAddr: 0x100003C20, symSize: 0x1C }
+  - { offsetInCU: 0x100, offset: 0x100, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x2A8, symBinAddr: 0x100003C3C, symSize: 0x1DC }
+...
