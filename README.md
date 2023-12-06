@@ -46,9 +46,9 @@ On cherche à afficher le code retour de la commande précédente. Pour cela, on
 
 Dans le cas où le processus fils s'est terminé à cause d'une erreur, on verifie le cas avec la fonction WIFSIGNALED. On affiche alors le numéro du signal qui a causé la fin du fils (récupéré à l'aide de WTERMSIG) et la chaine de caractère "sign:..." stockée dans le statusBuffer avec sprintf.  
 
-<img width="595" alt="Capture d’écran 2023-12-06 à 14 51 54" src="https://github.com/theopicht/TP1ProgSysJOUVE_PICHT/assets/151057454/6ae1b210-a7f4-4750-babc-a88dac9a83d2">
+<img width="300" alt="Capture d’écran 2023-12-06 à 15 19 29" src="https://github.com/theopicht/TP1ProgSysJOUVE_PICHT/assets/151057454/bb8321c2-d62d-44c5-941f-0ff9a91c7fe1">  
 
-Ici, l'affichage de la ligne "sign" étant trop complexe (il faudrait parvenir à créer une erreur), on admet que le shell renvoie bien le code retour de la commande précédente.
+En créant d'autre fichier test pour renvoyer un "exit:48" et une signal différent, on obtient bien le résultat souhaité. Ici, une division par 0 renvoie un "Floating-point exeption".  
 
 ---
 
@@ -56,3 +56,8 @@ Ici, l'affichage de la ligne "sign" étant trop complexe (il faudrait parvenir �
 
 On cherche à implémenter l'affichage de la mesure du temps d'exécution de la commande. Pour cela, on fait appel à la fonction clock_gettime lors du passage du processus à un processus fils (start_time). On ré-appel la fonction lorsque le processus re-devient un processus père (end_time).  
 On obtient alors la valeur du temps d'exécution.
+
+<img width="595" alt="Capture d’écran 2023-12-06 à 14 51 54" src="https://github.com/theopicht/TP1ProgSysJOUVE_PICHT/assets/151057454/6ae1b210-a7f4-4750-babc-a88dac9a83d2">  
+
+---
+
