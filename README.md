@@ -70,3 +70,10 @@ On cherche maintenant à exécuter des commande avec des arguments. On utilise a
 
 On teste ici avec la fonction ls -l : l'argument est bien prit en compte
 
+---
+
+## Question 7
+
+QUESTION A FAIRE  
+
+<img width="497" alt="Capture d’écran 2023-12-06 à 17 28 28" src="https://github.com/theopicht/TP1ProgSysJOUVE_PICHT/assets/151057454/166b29af-01d0-4f03-8cec-e010c94aaeb6">
