@@ -5,14 +5,20 @@
 #include <string.h>
 #include <sys/wait.h>
 #include <time.h>
+#include <fcntl.h>
 
 // Constants
 #define EXCLUDE_NULL_CHAR 1 // Define EXCLUDE_NULL_CHAR to exclude the null char at the end of the prompt.
-#define MAX_COMMAND_LENGTH 100 // Define the maximal size of a command
-#define LINE_BREAK_DELETE_OFFSET 1 // Define LINE_BREAK_DELETE_OFFSET to remove the line break
+#define LINE_BREAK_DELETE_OFFSET 1 // Define LINE_BREAK_DELETE_OFFSET to remove the line break.
 
-#define TV_SEC_CONVERTER 1000 // Conversion second to millisecond
-#define TV_NSEC_CONVERTER 1000000 // Conversion nanosecond to millisecond
+#define MAX_COMMAND_LENGTH 100 // Define the maximal size of a command.
+#define MAX_ARG_SIZE 20 // Define the maximal size of arguments.
+#define MAX_STATUS_BUFFER_SIZE 512 // Define the maximum statusBuffer size.
+
+#define PERMISSION_DEFINITION 0666 // Define the read and write permission for each user on the system
+
+#define TV_SEC_CONVERTER 1000 // Conversion second to millisecond.
+#define TV_NSEC_CONVERTER 1000000 // Conversion nanosecond to millisecond.
 
 void displayWelcomeMessage() {
     const char welcome_message[] = "Bienvenue dans le Shell ENSEA.\nPour quitter, tapez 'exit'.\n";
@@ -26,7 +32,7 @@ void executeCommand(const char *command) {
     pid_t pid = fork();
     int status;
     // Prompt buffer
-    char statusBuffer[512];
+    char statusBuffer[MAX_STATUS_BUFFER_SIZE];
 
     struct timespec start_time, end_time;
     clock_gettime(CLOCK_MONOTONIC, &start_time);
@@ -34,7 +40,7 @@ void executeCommand(const char *command) {
     // If the process is a child process
     if (pid == 0) {
         // Split the command into tokens
-        char *args[30];
+        char *args[MAX_ARG_SIZE];
         int arg_count = 0;
 
         char *token = strtok((char *)command, " ");
@@ -43,6 +49,31 @@ void executeCommand(const char *command) {
             token = strtok(NULL, " ");
         }
         args[arg_count] = NULL; // Null-terminate the array
+
+        // Check for input and output redirection
+        for (int i = 0; i < arg_count; ++i) {
+            if (strcmp(args[i], "<") == 0) {
+                // Input redirection
+                int fd_in = open(args[i + 1], O_RDONLY);
+                if (fd_in == -1) {
+                    perror("Error opening input file");
+                    exit(EXIT_FAILURE);
+                }
+                dup2(fd_in, STDIN_FILENO);
+                close(fd_in);
+                args[i] = NULL; // Remove '<' from arguments
+            } else if (strcmp(args[i], ">") == 0) {
+                // Output redirection
+                int fd_out = open(args[i + 1], O_WRONLY | O_CREAT | O_TRUNC, PERMISSION_DEFINITION);
+                if (fd_out == -1) {
+                    perror("Error opening output file");
+                    exit(EXIT_FAILURE);
+                }
+                dup2(fd_out, STDOUT_FILENO);
+                close(fd_out);
+                args[i] = NULL; // Remove '>' from arguments
+            }
+        }
 
         // Execute the command with arguments
         execvp(args[0], args);
