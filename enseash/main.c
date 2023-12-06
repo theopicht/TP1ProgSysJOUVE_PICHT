@@ -5,6 +5,7 @@
 #include <string.h>
 #include <sys/wait.h>
 #include <sys/types.h>
+#include <time.h>
 
 // Constants
 #define EXCLUDE_NULL_CHAR 1 // Define EXCLUDE_NULL_CHAR to exclude the null char at the end of the prompt.
@@ -25,8 +26,12 @@ void executeCommand(const char *command) {
     // Prompt buffer
     char statusBuffer[512];
 
+    struct timespec start_time, end_time;
+
     // If the process is a child process
     if (pid == 0) {
+        clock_gettime(CLOCK_MONOTONIC, &start_time);
+
         execlp(command, command, NULL);
         // If execlp returns, there was an error
         perror("Error while executing command");
@@ -35,12 +40,17 @@ void executeCommand(const char *command) {
         // Wait for the child process to finish and get the exit status
         waitpid(pid, &status, 0);
 
+        clock_gettime(CLOCK_MONOTONIC, &end_time);
+
+        // Calculate the execution time in milliseconds
+        long execution_time = (end_time.tv_nsec - start_time.tv_nsec) / 1000000;
+
         // Print the prompt with the exit status or the signal information
         if (WIFEXITED(status)){ // If the process exited normally
-            sprintf(statusBuffer, "enseah [exit:%d] %% ", WEXITSTATUS(status));
+            sprintf(statusBuffer, "enseash [exit:%d|%ldms] %% ", WEXITSTATUS(status), execution_time);
             write(STDIN_FILENO, statusBuffer, strlen(statusBuffer));
         } else if(WIFSIGNALED(status)){ // If the process was killed by a signal
-            sprintf(statusBuffer, "enseah [exit:%d] %% ", WTERMSIG(status));
+            sprintf(statusBuffer, "enseash [sign:%d|%ldms] %% ", WTERMSIG(status), execution_time);
             write(STDIN_FILENO, statusBuffer, strlen(statusBuffer));
         }
     } else { // Fork failed
@@ -108,7 +118,7 @@ int main() {
             displayFortune();
         } else {
             // If the command is not recognized, proceed with the general command execution logic
-            executeCommand(command);
+            perror("No such command found");
         }
     }
 
