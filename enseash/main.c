@@ -54,24 +54,26 @@ void executeCommand(const char *command) {
         for (int i = 0; i < arg_count; ++i) {
             if (strcmp(args[i], "<") == 0) {
                 // Input redirection
-                int fd_in = open(args[i + 1], O_RDONLY);
+                int fd_in = open(args[i + 1], O_RDONLY); // Open the file specified for input redirection in read-only mode
                 if (fd_in == -1) {
+                    // Error handler
                     perror("Error opening input file");
                     exit(EXIT_FAILURE);
                 }
-                dup2(fd_in, STDIN_FILENO);
-                close(fd_in);
-                args[i] = NULL; // Remove '<' from arguments
+                dup2(fd_in, STDIN_FILENO); // Duplicate the file descriptor for input to stdin
+                close(fd_in); // Close the original file descriptor
+                args[i] = NULL; // Remove '<' from arguments to exclude it from command execution
             } else if (strcmp(args[i], ">") == 0) {
                 // Output redirection
-                int fd_out = open(args[i + 1], O_WRONLY | O_CREAT | O_TRUNC, PERMISSION_DEFINITION);
+                int fd_out = open(args[i + 1], O_WRONLY | O_CREAT | O_TRUNC, PERMISSION_DEFINITION); // Open the file for output redirection with write-only, create, and truncate flags
                 if (fd_out == -1) {
+                    // Error handler
                     perror("Error opening output file");
                     exit(EXIT_FAILURE);
                 }
-                dup2(fd_out, STDOUT_FILENO);
-                close(fd_out);
-                args[i] = NULL; // Remove '>' from arguments
+                dup2(fd_out, STDOUT_FILENO); // Duplicate the file descriptor for output to stdout
+                close(fd_out); // Close the original file descriptor
+                args[i] = NULL; // Remove '>' from arguments to exclude it from command execution
             }
         }
 
