@@ -69,6 +69,8 @@ void executeCommand(const char *command) {
         perror("Error while creating child process");
         exit(EXIT_FAILURE);
     }
+    start_time.tv_nsec =  0;
+    end_time.tv_nsec = 0;
 }
 
 // Function to display the current date
