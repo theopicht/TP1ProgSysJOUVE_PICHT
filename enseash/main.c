@@ -11,6 +11,9 @@
 #define MAX_COMMAND_LENGTH 100 // Define the maximal size of a command
 #define LINE_BREAK_DELETE_OFFSET 1 // Define LINE_BREAK_DELETE_OFFSET to remove the line break
 
+#define TV_SEC_CONVERTER 1000 // Conversion second to millisecond
+#define TV_NSEC_CONVERTER 1000000 // Conversion nanosecond to millisecond
+
 void displayWelcomeMessage() {
     const char welcome_message[] = "Bienvenue dans le Shell ENSEA.\nPour quitter, tapez 'exit'.\n";
 
@@ -26,13 +29,12 @@ void executeCommand(const char *command) {
     char statusBuffer[512];
 
     struct timespec start_time, end_time;
+    clock_gettime(CLOCK_MONOTONIC, &start_time);
 
     // If the process is a child process
     if (pid == 0) {
-        clock_gettime(CLOCK_MONOTONIC, &start_time);
-
         // Split the command into tokens
-        char *args[30]; // You may need to adjust the size based on the maximum number of arguments
+        char *args[30];
         int arg_count = 0;
 
         char *token = strtok((char *)command, " ");
@@ -55,22 +57,21 @@ void executeCommand(const char *command) {
         clock_gettime(CLOCK_MONOTONIC, &end_time);
 
         // Calculate the execution time in milliseconds
-        long execution_time = (end_time.tv_nsec - start_time.tv_nsec) / 1000000;
+        long execution_time = (end_time.tv_sec - start_time.tv_sec) * TV_SEC_CONVERTER +
+                              (end_time.tv_nsec - start_time.tv_nsec) / TV_NSEC_CONVERTER;
 
         // Print the prompt with the exit status or the signal information
         if (WIFEXITED(status)){ // If the process exited normally
-            sprintf(statusBuffer, "enseash [exit:%d|%ldms] %% ", WEXITSTATUS(status), execution_time);
+            sprintf(statusBuffer, "enseash [exit:%d|%ld ms] %% ", WEXITSTATUS(status), execution_time);
             write(STDIN_FILENO, statusBuffer, strlen(statusBuffer));
         } else if(WIFSIGNALED(status)){ // If the process was killed by a signal
-            sprintf(statusBuffer, "enseash [sign:%d|%ldms] %% ", WTERMSIG(status), execution_time);
+            sprintf(statusBuffer, "enseash [sign:%d|%ld ms] %% ", WTERMSIG(status), execution_time);
             write(STDIN_FILENO, statusBuffer, strlen(statusBuffer));
         }
     } else { // Fork failed
         perror("Error while creating child process");
         exit(EXIT_FAILURE);
     }
-    start_time.tv_nsec =  0;
-    end_time.tv_nsec = 0;
 }
 
 // Function to display the current date
