@@ -54,10 +54,11 @@ En créant d'autre fichier test pour renvoyer un "exit:48" et une signal différ
 
 ## Question 5
 
-On cherche à implémenter l'affichage de la mesure du temps d'exécution de la commande. Pour cela, on fait appel à la fonction clock_gettime lors du passage du processus à un processus fils (start_time). On ré-appel la fonction lorsque le processus re-devient un processus père (end_time).  
+On cherche à implémenter l'affichage de la mesure du temps d'exécution de la commande. Pour cela, on fait appel à la fonction clock_gettime à la création du processus fils, lors du fork (start_time). On ré-appel la fonction lorsque le processus re-devient un processus père (end_time).  
 On obtient alors la valeur du temps d'exécution.
 
-<img width="595" alt="Capture d’écran 2023-12-06 à 14 51 54" src="https://github.com/theopicht/TP1ProgSysJOUVE_PICHT/assets/151057454/6ae1b210-a7f4-4750-babc-a88dac9a83d2">  
+<img width="289" alt="Capture d’écran 2023-12-06 à 16 04 01" src="https://github.com/theopicht/TP1ProgSysJOUVE_PICHT/assets/151057454/03aac360-d61a-4e7c-8faa-62236d13f288">
+
 
 ---
 
