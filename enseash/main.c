@@ -4,7 +4,6 @@
 #include <unistd.h>
 #include <string.h>
 #include <sys/wait.h>
-#include <sys/types.h>
 #include <time.h>
 
 // Constants
@@ -32,8 +31,21 @@ void executeCommand(const char *command) {
     if (pid == 0) {
         clock_gettime(CLOCK_MONOTONIC, &start_time);
 
-        execlp(command, command, NULL);
-        // If execlp returns, there was an error
+        // Split the command into tokens
+        char *args[30]; // You may need to adjust the size based on the maximum number of arguments
+        int arg_count = 0;
+
+        char *token = strtok((char *)command, " ");
+        while (token != NULL) {
+            args[arg_count++] = token;
+            token = strtok(NULL, " ");
+        }
+        args[arg_count] = NULL; // Null-terminate the array
+
+        // Execute the command with arguments
+        execvp(args[0], args);
+
+        // If execvp returns, there was an error
         perror("Error while executing command");
         exit(EXIT_FAILURE);
     } else if (pid > 0) { // If the process is a parent process
@@ -118,7 +130,7 @@ int main() {
             displayFortune();
         } else {
             // If the command is not recognized, proceed with the general command execution logic
-            perror("No such command found");
+            executeCommand(command);
         }
     }
 
