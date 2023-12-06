@@ -42,9 +42,9 @@ Ici, deux cas se présente à nous pour sortie du shell :
 ## Question 4
 
 
-On cherche à afficher le code retour de la commande précédente. Pour cela, on utilise la fonction WIFEXITED, qui vérifie si le processus fils s'est terminé normalement. Dans ce cas, on affiche le status (récupéré à l'aide de WEXITSTATUS) avec sprintf(), et la chaine de caractère "exit:..." stockée dans le statusBuffer.
+On cherche à afficher le code retour de la commande précédente. Pour cela, on utilise la fonction WIFEXITED, qui vérifie si le processus fils s'est terminé normalement. Dans ce cas, on affiche la valeur de sortie du fils (récupéré à l'aide de WEXITSTATUS) et la chaine de caractère "exit:..." stockée dans le statusBuffer avec sprintf.  
 
-Dans le cas où le processus fils s'est terminé à cause d'une erreur, on verifie le cas avec la fonction WIFSIGNALED. On affiche alors la valeur du du status (récupéré à l'aide de WTERMSIG) avec sprintf(), et la chaine de caractère "sign:..." stockée dans le statusBuffer.  
+Dans le cas où le processus fils s'est terminé à cause d'une erreur, on verifie le cas avec la fonction WIFSIGNALED. On affiche alors le numéro du signal qui a causé la fin du fils (récupéré à l'aide de WTERMSIG) et la chaine de caractère "sign:..." stockée dans le statusBuffer avec sprintf.  
 
 <img width="411" alt="Capture d’écran 2023-12-06 à 14 14 33" src="https://github.com/theopicht/TP1ProgSysJOUVE_PICHT/assets/151057454/eee12201-95d8-4619-a29e-15df850dbfeb">  
 
@@ -54,4 +54,5 @@ Ici, l'affichage de la ligne "sign" étant trop complexe (il faudrait parvenir �
 
 ## Question 5
 
-
+On cherche à implémenter l'affichage de la mesure du temps d'exécution de la commande. Pour cela, on fait appel à la fonction clock_gettime lors du passage du processus à un processus fils (start_time). On ré-appel la fonction lorsque le processus re-devient un processus père (end_time).  
+On obtient alors la valeur du temps d'exécution.
