@@ -46,7 +46,7 @@ On cherche à afficher le code retour de la commande précédente. Pour cela, on
 
 Dans le cas où le processus fils s'est terminé à cause d'une erreur, on verifie le cas avec la fonction WIFSIGNALED. On affiche alors le numéro du signal qui a causé la fin du fils (récupéré à l'aide de WTERMSIG) et la chaine de caractère "sign:..." stockée dans le statusBuffer avec sprintf.  
 
-<img width="411" alt="Capture d’écran 2023-12-06 à 14 14 33" src="https://github.com/theopicht/TP1ProgSysJOUVE_PICHT/assets/151057454/eee12201-95d8-4619-a29e-15df850dbfeb">  
+<img width="595" alt="Capture d’écran 2023-12-06 à 14 51 54" src="https://github.com/theopicht/TP1ProgSysJOUVE_PICHT/assets/151057454/6ae1b210-a7f4-4750-babc-a88dac9a83d2">
 
 Ici, l'affichage de la ligne "sign" étant trop complexe (il faudrait parvenir à créer une erreur), on admet que le shell renvoie bien le code retour de la commande précédente.
 
