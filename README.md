@@ -62,3 +62,11 @@ On obtient alors la valeur du temps d'exécution.
 
 ---
 
+## Question 6
+
+On cherche maintenant à exécuter des commande avec des arguments. On utilise alors la fonction execvp qui permet de run une commande accompagnée de ses arguments. Cependant, execvp attend un tableau de caractère pour la liste des arguments; il faut donc utiliser la fonction strtok pour convertir les arguments du shell en un tableau de caratères distincts (sépare à chaque fois qu'il y a un espace).    
+
+<img width="506" alt="Capture d’écran 2023-12-06 à 16 35 31" src="https://github.com/theopicht/TP1ProgSysJOUVE_PICHT/assets/151057454/e315ac4d-7e33-4473-b454-915548422daf">  
+
+On teste ici avec la fonction ls -l : l'argument est bien prit en compte
+
