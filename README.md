@@ -74,6 +74,12 @@ On teste ici avec la fonction ls -l : l'argument est bien prit en compte
 
 ## Question 7
 
-QUESTION A FAIRE  
+Pour gèrer la redirection des ">" et "<" vers stdin et stdout, on utilise la fonction strcmp (comme à la Q2 et Q3).  
+Si le symbole ">" est saisi, on ouvre le fichier qui suit l'expression en READ-ONLY. L'instruction dup2 permet de dipliquer le file descriptor de l'entrée sur stdin. Enfin, on oublie pas de fermer le fichier ainsi que remettre la liste des arguments de fonction.  
+Si le symbole "<" est saisi, on ouvre le fichier qui suit l'expression en WRITE-ONLY (ou on le crée). Et on refait les mêmes étapes que l'argument précédent. 
+ 
 
 <img width="497" alt="Capture d’écran 2023-12-06 à 17 28 28" src="https://github.com/theopicht/TP1ProgSysJOUVE_PICHT/assets/151057454/166b29af-01d0-4f03-8cec-e010c94aaeb6">
+
+En écrivant une citation de "fortune" dans le fichier test.txt et en affichant le contenu du fichier grace à la fonction "cat", on retrouve bien la citation écrite dedans.  
+Ici, la commande wc -l permet de compter le nombre de ligne (bien 2 lignes comme affiché ci-dessus).
